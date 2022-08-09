@@ -7,6 +7,8 @@ with open ('vd1.txt', encoding='UTF8') as f:
     # c = f.readlines()
     # d = f.read().split()
     number = f.read().split()
+    f.close()
+    # print(number)
 # print(a) 
 print("======")
 # print(b) 
@@ -14,10 +16,10 @@ print("======")
 # print(c)
 # print("======")
 # print(d)
-print("ghi vao file")
-s=int(number[0])+int(number[1])
-with open ('vd10.txt', 'w') as f:
-    # Chi write dc kieu string khong writedc so
-    # f.write(str(int(number[0])+int(number[1])))
-    #  chen them tien to f - format
-    f.write(f'{s}')
+# print("ghi vao file")
+# s=int(number[0])+int(number[1])
+# with open ('vd10.txt', 'w') as f:
+#     # Chi write dc kieu string khong writedc so
+#     # f.write(str(int(number[0])+int(number[1])))
+#     #  chen them tien to f - format
+#     f.write(f'{s}')

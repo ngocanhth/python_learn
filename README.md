@@ -10,3 +10,6 @@
 
 # create new app
 django-admin startapp courses
+
+# install mysqlclient
+pip install mysqlclient

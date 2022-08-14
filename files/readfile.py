@@ -23,3 +23,13 @@ print("======")
 #     # f.write(str(int(number[0])+int(number[1])))
 #     #  chen them tien to f - format
 #     f.write(f'{s}')
+
+try:
+    with open('input.txt', 'r', encoding='UTF8') as f:
+        c = f.readlines()
+        print(c)
+        print("Fichier non trouvé")
+        print("viết tiêng việt bình thường")
+except OSError:
+    # 'File not found' error message.
+    print("Fichier non trouvé")

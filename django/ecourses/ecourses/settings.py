@@ -77,10 +77,11 @@ WSGI_APPLICATION = 'ecourses.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': BASE_DIR / 'ecoursesdb',
+        'NAME': 'ecoursesdb',
         'USER': 'root',
-        'PASSWORD': 'Admin$123',
-        'HOST': '',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 

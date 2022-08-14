@@ -17,6 +17,10 @@ print('day la gia tri a', a, "day la gia tri b", b)
 
 print("in gia tri voi placeholder: %d con day la gia tri %d" %(7, 9))
 
+# d la so nguyen
+# f la so thuc 
+# s la string
+
 print("You have {} apples.".format(5))
 
 # this will print:

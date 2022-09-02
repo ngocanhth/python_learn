@@ -31,3 +31,5 @@ plural = "s" if apples != 1 else ""
 
 print("You have {} apple{}.".format(apples, plural))
 
+print (f" placeholder {apples} gia tri b la {plural} ")
+

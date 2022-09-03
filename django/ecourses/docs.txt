@@ -1,0 +1,70 @@
+# Python shell
+
+python manage.py shell
+
+from courses.models import *
+
+c=Category(name='Lap trinh backend') ==> chu y ko co dau cach giua name=''
+
+c.save()
+
+Cách 2:
+
+ Category.objects.create(name='Lập trình blockchain')
+ Category.objects.get_or_create(name='Lập trình blockchain') => nếu có thì trart ko thì tạo
+ Category.objects.update_or_create(name='Lập trình blockchain') => nếu có thì trart ko thì tạo
+
+---
+Tao khoa hoc
+
+c = Category.objects.get(pk=1)
+c.__dict__
+
+Course.objects.create(subject='Lap trinh Python', description="Python cho nguoi moi bat dau", category=c)
+
+Course.objects.create(subject='Phan tich du lieu voi Python', description="Lap trinh python data analytics", category=c)
+
+Course.objects.create(subject='Lap trinh AI voi Python', description="Lap trinh AI voi python cho nguoi moi bat dau", category=c)
+
+Course.objects.create(subject='Lap trinh frontend ket hop API Python Django', description="Reactjs voi API python", category=c)
+
+c = Category.objects.get(pk=2)
+Course.objects.create(subject='Lap trinh reactjs', description="Lap trinh reactjs tu co co ban den advanced", category=c)
+
+
+
+Category.objects.filter(name__contains='frontend')
+Category.objects.filter(name__startswith='Lap')
+Category.objects.filter(name__endswith='blockchain')
+
+====
+xem cau SQL
+======
+
+c = Category.objects.filter(name__startswith='Lap')
+
+print(c.query)
+
+==============
+
+Join table
+
+Course.objects.all()
+
+Lay tat ca khoa hoc ma ten danh muc co chua chu frontend
+
+q = Course.objects.filter(category__name__contains="frontend")
+q = Course.objects.filter(category__name__contains="backend")
+q = Course.objects.filter(category__name__icontains="backend") ==> chu i la khong phan biet hoa thuong
+q = Course.objects.filter(category__name__icontains="la")
+q
+print(q.query)
+
+=========================
+2. Meta Options
+======================
+
+SET_NULL => khoa ngoai xoa thi fiel con set la null
+SET_DEFAULT => fiel con se co khoa ngoai la truong mac dinh
+CASCADE => Xoa khoa chinh khoa ngoai xoa theo
+PROTECT => Khong duoc xoa

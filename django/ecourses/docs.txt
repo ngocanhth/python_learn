@@ -68,3 +68,70 @@ SET_NULL => khoa ngoai xoa thi fiel con set la null
 SET_DEFAULT => fiel con se co khoa ngoai la truong mac dinh
 CASCADE => Xoa khoa chinh khoa ngoai xoa theo
 PROTECT => Khong duoc xoa
+
+==============
+bAI 6
+============
+c = Course.objects.filter(pk=1)
+muon in cau truy van phai dung filter
+print(c.query)
+
+c = Course.objects.get(pk=1)
+
+Lesson.objects.create(subject='Bai 1 Kieu du lieu trong python', content='Noi dung bai hoc variabe trong python', course=c)
+
+Lesson.objects.create(subject='Bai 2: Cau truc du lieu va giai thuat - phan 1', content='Mot so thuat toan nhu sap xep tron, sap xep noi bot, hashmap', course=c)
+
+Lesson.objects.create(subject='Bai 3: Cau truc du lieu va giai thuat - phan 2', content='Mot so thuat toan nhu sap xep tron, sap xep noi bot, hashmap', course=c)
+
+c = Course.objects.get(pk=2)
+
+Lesson.objects.create(subject='Bai 1: Ly thuyet ve du lieu', content='Lich su phan tich du lieu la gi ...', course=c)
+
+===================
+many to one
+xem trong khoa hoc co bao nhieu bai hoc
+
+c = Course.objects.get(pk=1)
+c.lesson_set.all()
+
+neu khong muon lay lesson_set thi thay related_name="lessons" trong model cua lesson
+c = Course.objects.get(pk=1)
+c.lessons.all()
+
+Join: Lay tat ca cac bai hoc ma co subject cua khoa hoc bao gom ten python (khong phan biet chu hoa chua thuong)
+
+Lesson.objects.filter(course__subject__icontains="python")
+Lesson.objects.filter(course__subject__icontains="du lieu")
+Lesson.objects.filter(course__subject__icontains="voi")
+
+Lay tat ca khoa hoc ma con co bai hoc dang active
+
+ Course.objects.filter(lessons__active=True)
+
+===========
+many to many
+
+t = Tag.objects.create(name='python')
+t = Tag.objects.create(name = "reactjs")
+t = Tag.objects.create(name = "frontend")
+t = Tag.objects.create(name = "giai thuat")
+
+
+t = Tag.objects.get(name = "giai thuat")
+t = Tag.objects.get(pk = 1)
+t = Tag.objects.get(pk = 2) ==> tat ca id = 2 cua cac model dang khong tao dc ko hieu ly do
+t = Tag.objects.get(pk = 3)
+
+l = Lesson.objects.get(pk=3)
+
+l.tags.add(t)
+l.save()
+
+l = Lesson.objects.get(pk=1)
+l.tags.add(t)
+l.save()
+
+t = Tag.objects.get(pk = 1)
+t.lesson_set.all()
+t.lessonstag.all()

@@ -39,12 +39,15 @@ class Lesson(ItemBase):
     class Meta:
         unique_together = ('subject', 'course') #trong 1 khoa hoc ko dc phep trung ten bai hoc subject 
     content = models.TextField(null=True, blank=True)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    tags = models.ManyToManyField('Tag', blank=True, null=True)
-    
-class Tag(ItemBase):
+    course = models.ForeignKey(Course, related_name='lessons', on_delete=models.CASCADE)
+    tags = models.ManyToManyField('Tag', related_name='lessonstag', blank=True, null=True)
+  
+    # One To One dung khi mo rong app khong dc tac dong vao CSDL cua bang chinh
+    #  userInfo = models.OneToOneField('User', related_name='userinfo',  on_delete=models.CASCADE, primary_key=True)
+class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
-    
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.subject
+        return self.name

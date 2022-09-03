@@ -135,3 +135,90 @@ l.save()
 t = Tag.objects.get(pk = 1)
 t.lesson_set.all()
 t.lessonstag.all()
+
+========
+
+Bai 7: Truy van du lieu model trong django
+
+t, created = Tag.objects.get_or_create(name='reactjs')
+Tag.objects.count()
+
+- count(): So doi tuong trong QuerySet
+- latest(): Tra ve doi tuong cuối trong QuerySet dựa trên trường chỉ định
+- earliest(): Tra ve doi tuong đầu trong QuerySet dựa trên trường chỉ định
+- first(): Trả về đối tượng đầu trong QuerySet
+- last(): Trả về đối tượng cuối trong QuerySet
+- exists(): Kiểm tra xem QuerySet có tồn tại kết quả nào không
+- aggregate(): Thống kê cho QuerySet (sum, max)
+
+Tag.objects.latest('updated_date')
+Tag.objects.earliest('created_date')
+Tag.objects.first()
+Tag.objects.last()
+Tag.objects.exists() ==> Boolean
+Tag.objects.aggregate()
+
+Lay bai hoc duoc tao ra trong thang 9
+
+Lesson.objects.filter(created_date__month=8)
+c=Lesson.objects.filter(created_date__month=9)
+print(c.query)
+
+Lay bai hoc duoc tao ra trong thang 8 den thang 10
+date, year, month, day, hour, minute, second
+Lesson.objects.filter(created_date__month__range=[8,10])
+
+Lay bai hoc duoc tao ra trong thang 7,9,10
+Lesson.objects.filter(created_date__month__in=[7,9,10])
+
+
+Lesson.objects.filter(created_date__month__gt=9)
+Lesson.objects.filter(created_date__month__gte=9)
+Lesson.objects.filter(created_date__month__lt=9)
+Lesson.objects.filter(created_date__month__lte=9)
+
+Truy van dua vao regex
+
+Lesson.objects.filter(name__iregex='(giai thuat | thuat giai)')
+
+exact va iexact ==> so sanh chinh xac
+
+# exclude nguoc voi filter
+
+Lay tat ca khoa hoc ngoai tru khoa hoc co nam tao <=2020
+
+Course.objects.exclude(created_date__year__lte=2020)
+
+Menh de and va get_or_create
+Lesson.objects.filter(created_date__month__lt=9, active=True)
+
+from django.db.models import Q
+
+q = Lesson.objects.filter(Q(active=True)|Q(subject__icontains='reactjs'))
+print(q.query)
+
+QuerySet trong django la lazy no chi tao QuerySet ma chua thuc su 
+truy van cho den khi co 1 lenh tac dong lenh bi du print ==> evaluated
+
+vidu:
+iteration: lap qua QuerySet
+slicing: Lay 1 so phan tu cua QuerySet
+picking/caching: Luu lai QuerySet
+repr: Xem nhanh ket qua QuerySet
+len: Lay so luong phan tu QuerySet
+list: Chuyen QuerySet thanh list
+bool: Dung QuerySet de kiem tra dieu kien nao do
+
+order_by
+se overide order khai bao trong model
+
+Course.objects.all().order_by('id')
+Course.objects.all().order_by('subject','id')
+
+Category.objects.all().order_by('name')
+Category.objects.all().order_by('-name')
+
+
+Cac phuong thuc khac tham khao tai link
+
+https://docs.djangoproject.com/en/3.2/ref/models/querysets/

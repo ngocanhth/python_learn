@@ -2,10 +2,13 @@ from distutils.command.upload import upload
 from email.policy import default
 from pydoc import describe
 from xml.parsers.expat import model
-from django.db import models
-from django.contrib.auth.models import AbstractUser
+
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
+
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+
 # Create your models here.
 
 class User(AbstractUser):
@@ -39,8 +42,8 @@ class Course (ItemBase):
 class Lesson(ItemBase):
     class Meta:
         unique_together = ('subject', 'course') #trong 1 khoa hoc ko dc phep trung ten bai hoc subject 
-   # content = models.TextField(null=True, blank=True)
-    content = RichTextField()
+    # content = models.TextField(null=True, blank=True)
+    content = RichTextField(blank=True, null=True)
     course = models.ForeignKey(Course, related_name='lessons', on_delete=models.CASCADE)
     tags = models.ManyToManyField('Tag', related_name='lessonstag', blank=True, null=True)
   

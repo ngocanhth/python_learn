@@ -222,3 +222,15 @@ Category.objects.all().order_by('-name')
 Cac phuong thuc khac tham khao tai link
 
 https://docs.djangoproject.com/en/3.2/ref/models/querysets/
+
+==============
+Bai 17
+
+from courses.serializers import *
+from courses.models import *
+
+courses = Course.objects.all()
+CourseSerializer(courses, many=True).data
+
+courses = Course.objects.get(pk=1)
+CourseSerializer(courses).data

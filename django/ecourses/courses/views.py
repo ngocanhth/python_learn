@@ -3,6 +3,9 @@ from django.http import HttpResponse
 from courses.models import Lesson
 # from .models import Lesson
 from .admin import LessonForm
+from django.views import View
+
+
 # Create your views here.
 
 # def index(request):
@@ -30,3 +33,19 @@ def detail(request):
         form = LessonForm(instance=lessons)
 
     return render(request, 'lesson/detail.html', {'lessons': lessons, 'form': form})
+
+
+def welcome(request, welcome_id):
+    return HttpResponse("<h1>Welcome!</h1>" + str(welcome_id))
+
+def welcome2(request, year):
+    return HttpResponse("<h1>Welcome2!</h1>" + str(year))
+
+# Viet View dang class
+
+class TestView(View):
+  def get(self, request):
+    return HttpResponse("Response Request")
+  
+  def post(self, request):
+    pass

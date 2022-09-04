@@ -18,7 +18,7 @@ from django.urls import path, include, re_path
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.conf import settings
 from django.conf.urls.static import static
-from courses.views import index, detail
+from courses.views import index, detail, welcome
 from courses.admin import admin_site
 
 # urlpatterns = [
@@ -28,12 +28,12 @@ from courses.admin import admin_site
 # ]
 
 urlpatterns = [
-   # path('', include('courses.urls')),
-    path('', index, name='index'),
-    path('detail/', detail, name='detail'),
+    path('', include('courses.urls')),
+    # path('', index, name='index'),
+    # path('detail/', detail, name='detail'),
+    # path('detail/<int:lesson_id/>', detail, name='detail'),
     # path('admin/', admin.site.urls),
     path('admin/', admin_site.urls),
   
-    path('ckeditor/', include('ckeditor_uploader.urls')),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

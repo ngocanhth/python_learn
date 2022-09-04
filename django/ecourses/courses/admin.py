@@ -10,6 +10,10 @@ class LessonForm(forms.ModelForm):
     class Meta:
         model = Lesson
         fields = '__all__'
+
+# Nhung in line trong quan he many to many
+class LessonTagInline(admin.TabularInline): # hoac thay TabularInline = StackedInline
+    model = Lesson.tags.through
 class LessonAdmin(admin.ModelAdmin):
     class Media:
         css = {
@@ -22,14 +26,25 @@ class LessonAdmin(admin.ModelAdmin):
     search_fields = ["subject", "created_date", "active", "content", "course__subject"]
     list_filter = ["subject","course__subject"]
     readonly_fields = ['avatar']
+    inlines = [LessonTagInline]
     
     def avatar(self, lesson):
         return mark_safe("<img src='/static/{img_url}' width='120px' alt='{alt}' />".format(img_url=lesson.image.name, alt=lesson.subject))
-    
+
+class CourseInline(admin.StackedInline):
+    model = Course
+    pk_name = 'category'
+class CategoryAdmin(admin.ModelAdmin):
+    inlines = (CourseInline, )
+class LessonInline(admin.StackedInline):
+    model = Lesson
+    pk_name = 'course'
+class CourseAdmin(admin.ModelAdmin):
+    inlines = (LessonInline, )
 class CourseAppAdminSite(admin.AdminSite):
     site_header: str = "HE THONG KHOA HOC TRUC TUYEN"
 admin_site = CourseAppAdminSite('mycourse')
 
-admin.site.register(Category)
-admin.site.register(Course)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Course, CourseAdmin)
 admin.site.register(Lesson, LessonAdmin)

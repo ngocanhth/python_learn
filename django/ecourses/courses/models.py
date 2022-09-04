@@ -44,7 +44,7 @@ class Lesson(ItemBase):
         unique_together = ('subject', 'course') #trong 1 khoa hoc ko dc phep trung ten bai hoc subject 
     # content = models.TextField(null=True, blank=True)
     content = RichTextField(blank=True, null=True)
-    course = models.ForeignKey(Course, related_name='lessons', on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, related_name='lessons', related_query_name='lessonsquery', on_delete=models.CASCADE)
     tags = models.ManyToManyField('Tag', related_name='lessonstag', blank=True, null=True)
   
     # One To One dung khi mo rong app khong dc tac dong vao CSDL cua bang chinh

@@ -2,8 +2,10 @@ from django.contrib import admin
 from django.utils.html import mark_safe
 from .models import Category, Course, Lesson, Tag
 from django import forms
+from django.db.models import Count # Day du phuong thuc thong ke trong CSDL dem, max, min, everage...
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
-
+from django.urls import path
+from django.template.response import TemplateResponse
 
 class LessonForm(forms.ModelForm):
     content = forms.CharField(widget=CKEditorUploadingWidget)
@@ -43,8 +45,30 @@ class CourseAdmin(admin.ModelAdmin):
     inlines = (LessonInline, )
 class CourseAppAdminSite(admin.AdminSite):
     site_header: str = "HE THONG KHOA HOC TRUC TUYEN"
+    
+    def get_urls(self):
+        return [
+            path('course-stats/', self.course_stats)
+        ] + super().get_urls()
+        
+    def course_stats(self, request):
+        course_count = Lesson.objects.filter(active=True).count()
+        
+        # Truy van nang cao dem xem moi khoa hoc co bao nhieu bai hoc
+        
+        stats = Course.objects.annotate(lesson_count=Count('lessonsquery')).values('id', 'subject', 'lesson_count')
+        # lesson la gia tri related_query_name='lessons' khai bao trong model Lesson
+        return TemplateResponse(request, 'admin/course-stats.html', {
+            'course_count': course_count,
+            'stats': stats
+        })
+    
 admin_site = CourseAppAdminSite('mycourse')
 
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Course, CourseAdmin)
-admin.site.register(Lesson, LessonAdmin)
+# admin.site.register(Category, CategoryAdmin)
+# admin.site.register(Course, CourseAdmin)
+# admin.site.register(Lesson, LessonAdmin)
+
+admin_site.register(Category, CategoryAdmin)
+admin_site.register(Course, CourseAdmin)
+admin_site.register(Lesson, LessonAdmin)

@@ -32,8 +32,8 @@ urlpatterns = [
     # path('', index, name='index'),
     # path('detail/', detail, name='detail'),
     # path('detail/<int:lesson_id/>', detail, name='detail'),
-    # path('admin/', admin.site.urls),
-    path('admin/', admin_site.urls),
+    path('admin/', admin.site.urls),
+   # path('admin/', admin_site.urls),
   
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

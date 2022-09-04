@@ -1,6 +1,7 @@
 from django.contrib import admin
+from django.contrib.auth.models import Permission
 from django.utils.html import mark_safe
-from .models import Category, Course, Lesson, Tag
+from .models import Category, Course, Lesson, Tag, User
 from django import forms
 from django.db.models import Count # Day du phuong thuc thong ke trong CSDL dem, max, min, everage...
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
@@ -65,10 +66,13 @@ class CourseAppAdminSite(admin.AdminSite):
     
 admin_site = CourseAppAdminSite('mycourse')
 
-# admin.site.register(Category, CategoryAdmin)
-# admin.site.register(Course, CourseAdmin)
-# admin.site.register(Lesson, LessonAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Course, CourseAdmin)
+admin.site.register(Lesson, LessonAdmin)
+admin.site.register(User)
+admin.site.register(Permission)
 
-admin_site.register(Category, CategoryAdmin)
-admin_site.register(Course, CourseAdmin)
-admin_site.register(Lesson, LessonAdmin)
+
+# admin_site.register(Category, CategoryAdmin)
+# admin_site.register(Course, CourseAdmin)
+# admin_site.register(Lesson, LessonAdmin)

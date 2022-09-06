@@ -57,14 +57,14 @@ class TestView(View):
 class CourseViewSet(viewsets.ModelViewSet):
 	queryset = Course.objects.filter(active=True)
 	serializer_class = CourseSerializer
-	# permission_classes = [permissions.IsAuthenticated] # IsAuthenticated tat ca API phai io trang thai user da dang nhap, tren rest framwork thi admin phai login
+	permission_classes = [permissions.IsAuthenticated] # IsAuthenticated tat ca API phai io trang thai user da dang nhap, tren rest framwork thi admin phai login
  
 	# xem danh sach thi ai cung xem dc con them sua xoa thi phai login
 	
-	def	get_permissions(self):
-		if self.action == 'list':
-			return [permissions.AllowAny()]
-		return [permissions.IsAuthenticated()]
+	# def	get_permissions(self):
+	# 	if self.action == 'list':
+	# 		return [permissions.AllowAny()]
+	# 	return [permissions.IsAuthenticated()]
 
 	# list GET danh sach khoa hoc
 	#  POST them khoa hoc

@@ -14,6 +14,11 @@ Cách 2:
  Category.objects.get_or_create(name='Lập trình blockchain') => nếu có thì trart ko thì tạo
  Category.objects.update_or_create(name='Lập trình blockchain') => nếu có thì trart ko thì tạo
 
+u = User.objects.get_or_create(username='ngocanh')
+u = User.objects.get(pk=2)
+u.set_password('Admin$123')
+u.save()
+
 ---
 Tao khoa hoc
 
@@ -234,3 +239,10 @@ CourseSerializer(courses, many=True).data
 
 courses = Course.objects.get(pk=1)
 CourseSerializer(courses).data
+
+================
+
+Bai 19
+
+pL7pzAzyOGwKhcTBy20eT9dT2txXLUHqpvgQCxBN
+OQeYx1cBeeNZOVAHFUW1Y8Te802MB41Ytv8T4UGIbxVFCJLxLcJDEgnMR0LJkXdwTtpQ5ID7S5wMsN2f2Uo4Q5svv0VDfm4gHabVbNZC5Oubm1apOL2SKHTW0ulhihZQ

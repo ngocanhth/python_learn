@@ -34,7 +34,10 @@ urlpatterns = [
     # path('detail/<int:lesson_id/>', detail, name='detail'),
     path('admin/', admin.site.urls),
    # path('admin/', admin_site.urls),
+    path('o/', include('oauth2_provider.urls', namespace="oauth2_provider")),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+   
+
   
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -12,7 +12,7 @@ from django.db import models
 # Create your models here.
 
 class User(AbstractUser):
-    avatar = models.ImageField(upload_to='uploads/%Y/%n')
+    avatar = models.ImageField(upload_to='uploads/%Y/%m/')
 
 class Category(models.Model):
     name = models.CharField(max_length=100, null=False, unique=True)
@@ -45,7 +45,7 @@ class Lesson(ItemBase):
     # content = models.TextField(null=True, blank=True)
     content = RichTextField(blank=True, null=True)
     course = models.ForeignKey(Course, related_name='lessons', related_query_name='lessonsquery', on_delete=models.CASCADE)
-    tags = models.ManyToManyField('Tag', related_name='lessonstag', blank=True, null=True)
+    tags = models.ManyToManyField('Tag', related_name='lessonstag', blank=True, default=None)
   
     # One To One dung khi mo rong app khong dc tac dong vao CSDL cua bang chinh
     #  userInfo = models.OneToOneField('User', related_name='userinfo',  on_delete=models.CASCADE, primary_key=True)

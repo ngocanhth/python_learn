@@ -56,7 +56,8 @@ class TestView(View):
 
 class UserViewSet(
         viewsets.ViewSet, 
-        # generics.ListAPIView, 
+        # generics.ListAPIView,
+        # generics.UpdateAPIView,  
         generics.CreateAPIView, 
         generics.RetrieveAPIView):
     queryset = User.objects.filter(is_active=True)

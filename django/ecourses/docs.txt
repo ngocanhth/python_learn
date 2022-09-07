@@ -1,0 +1,248 @@
+# Python shell
+
+python manage.py shell
+
+from courses.models import *
+
+c=Category(name='Lap trinh backend') ==> chu y ko co dau cach giua name=''
+
+c.save()
+
+Cách 2:
+
+ Category.objects.create(name='Lập trình blockchain')
+ Category.objects.get_or_create(name='Lập trình blockchain') => nếu có thì trart ko thì tạo
+ Category.objects.update_or_create(name='Lập trình blockchain') => nếu có thì trart ko thì tạo
+
+u = User.objects.get_or_create(username='ngocanh')
+u = User.objects.get(pk=2)
+u.set_password('Admin$123')
+u.save()
+
+---
+Tao khoa hoc
+
+c = Category.objects.get(pk=1)
+c.__dict__
+
+Course.objects.create(subject='Lap trinh Python', description="Python cho nguoi moi bat dau", category=c)
+
+Course.objects.create(subject='Phan tich du lieu voi Python', description="Lap trinh python data analytics", category=c)
+
+Course.objects.create(subject='Lap trinh AI voi Python', description="Lap trinh AI voi python cho nguoi moi bat dau", category=c)
+
+Course.objects.create(subject='Lap trinh frontend ket hop API Python Django', description="Reactjs voi API python", category=c)
+
+c = Category.objects.get(pk=2)
+Course.objects.create(subject='Lap trinh reactjs', description="Lap trinh reactjs tu co co ban den advanced", category=c)
+
+
+
+Category.objects.filter(name__contains='frontend')
+Category.objects.filter(name__startswith='Lap')
+Category.objects.filter(name__endswith='blockchain')
+
+====
+xem cau SQL
+======
+
+c = Category.objects.filter(name__startswith='Lap')
+
+print(c.query)
+
+==============
+
+Join table
+
+Course.objects.all()
+
+Lay tat ca khoa hoc ma ten danh muc co chua chu frontend
+
+q = Course.objects.filter(category__name__contains="frontend")
+q = Course.objects.filter(category__name__contains="backend")
+q = Course.objects.filter(category__name__icontains="backend") ==> chu i la khong phan biet hoa thuong
+q = Course.objects.filter(category__name__icontains="la")
+q
+print(q.query)
+
+=========================
+2. Meta Options
+======================
+
+SET_NULL => khoa ngoai xoa thi fiel con set la null
+SET_DEFAULT => fiel con se co khoa ngoai la truong mac dinh
+CASCADE => Xoa khoa chinh khoa ngoai xoa theo
+PROTECT => Khong duoc xoa
+
+==============
+bAI 6
+============
+c = Course.objects.filter(pk=1)
+muon in cau truy van phai dung filter
+print(c.query)
+
+c = Course.objects.get(pk=1)
+
+Lesson.objects.create(subject='Bai 1 Kieu du lieu trong python', content='Noi dung bai hoc variabe trong python', course=c)
+
+Lesson.objects.create(subject='Bai 2: Cau truc du lieu va giai thuat - phan 1', content='Mot so thuat toan nhu sap xep tron, sap xep noi bot, hashmap', course=c)
+
+Lesson.objects.create(subject='Bai 3: Cau truc du lieu va giai thuat - phan 2', content='Mot so thuat toan nhu sap xep tron, sap xep noi bot, hashmap', course=c)
+
+c = Course.objects.get(pk=2)
+
+Lesson.objects.create(subject='Bai 1: Ly thuyet ve du lieu', content='Lich su phan tich du lieu la gi ...', course=c)
+
+===================
+many to one
+xem trong khoa hoc co bao nhieu bai hoc
+
+c = Course.objects.get(pk=1)
+c.lesson_set.all()
+
+neu khong muon lay lesson_set thi thay related_name="lessons" trong model cua lesson
+c = Course.objects.get(pk=1)
+c.lessons.all()
+
+Join: Lay tat ca cac bai hoc ma co subject cua khoa hoc bao gom ten python (khong phan biet chu hoa chua thuong)
+
+Lesson.objects.filter(course__subject__icontains="python")
+Lesson.objects.filter(course__subject__icontains="du lieu")
+Lesson.objects.filter(course__subject__icontains="voi")
+
+Lay tat ca khoa hoc ma con co bai hoc dang active
+
+ Course.objects.filter(lessons__active=True)
+
+===========
+many to many
+
+t = Tag.objects.create(name='python')
+t = Tag.objects.create(name = "reactjs")
+t = Tag.objects.create(name = "frontend")
+t = Tag.objects.create(name = "giai thuat")
+
+
+t = Tag.objects.get(name = "giai thuat")
+t = Tag.objects.get(pk = 1)
+t = Tag.objects.get(pk = 2) ==> tat ca id = 2 cua cac model dang khong tao dc ko hieu ly do
+t = Tag.objects.get(pk = 3)
+
+l = Lesson.objects.get(pk=3)
+
+l.tags.add(t)
+l.save()
+
+l = Lesson.objects.get(pk=1)
+l.tags.add(t)
+l.save()
+
+t = Tag.objects.get(pk = 1)
+t.lesson_set.all()
+t.lessonstag.all()
+
+========
+
+Bai 7: Truy van du lieu model trong django
+
+t, created = Tag.objects.get_or_create(name='reactjs')
+Tag.objects.count()
+
+- count(): So doi tuong trong QuerySet
+- latest(): Tra ve doi tuong cuối trong QuerySet dựa trên trường chỉ định
+- earliest(): Tra ve doi tuong đầu trong QuerySet dựa trên trường chỉ định
+- first(): Trả về đối tượng đầu trong QuerySet
+- last(): Trả về đối tượng cuối trong QuerySet
+- exists(): Kiểm tra xem QuerySet có tồn tại kết quả nào không
+- aggregate(): Thống kê cho QuerySet (sum, max)
+
+Tag.objects.latest('updated_date')
+Tag.objects.earliest('created_date')
+Tag.objects.first()
+Tag.objects.last()
+Tag.objects.exists() ==> Boolean
+Tag.objects.aggregate()
+
+Lay bai hoc duoc tao ra trong thang 9
+
+Lesson.objects.filter(created_date__month=8)
+c=Lesson.objects.filter(created_date__month=9)
+print(c.query)
+
+Lay bai hoc duoc tao ra trong thang 8 den thang 10
+date, year, month, day, hour, minute, second
+Lesson.objects.filter(created_date__month__range=[8,10])
+
+Lay bai hoc duoc tao ra trong thang 7,9,10
+Lesson.objects.filter(created_date__month__in=[7,9,10])
+
+
+Lesson.objects.filter(created_date__month__gt=9)
+Lesson.objects.filter(created_date__month__gte=9)
+Lesson.objects.filter(created_date__month__lt=9)
+Lesson.objects.filter(created_date__month__lte=9)
+
+Truy van dua vao regex
+
+Lesson.objects.filter(name__iregex='(giai thuat | thuat giai)')
+
+exact va iexact ==> so sanh chinh xac
+
+# exclude nguoc voi filter
+
+Lay tat ca khoa hoc ngoai tru khoa hoc co nam tao <=2020
+
+Course.objects.exclude(created_date__year__lte=2020)
+
+Menh de and va get_or_create
+Lesson.objects.filter(created_date__month__lt=9, active=True)
+
+from django.db.models import Q
+
+q = Lesson.objects.filter(Q(active=True)|Q(subject__icontains='reactjs'))
+print(q.query)
+
+QuerySet trong django la lazy no chi tao QuerySet ma chua thuc su 
+truy van cho den khi co 1 lenh tac dong lenh bi du print ==> evaluated
+
+vidu:
+iteration: lap qua QuerySet
+slicing: Lay 1 so phan tu cua QuerySet
+picking/caching: Luu lai QuerySet
+repr: Xem nhanh ket qua QuerySet
+len: Lay so luong phan tu QuerySet
+list: Chuyen QuerySet thanh list
+bool: Dung QuerySet de kiem tra dieu kien nao do
+
+order_by
+se overide order khai bao trong model
+
+Course.objects.all().order_by('id')
+Course.objects.all().order_by('subject','id')
+
+Category.objects.all().order_by('name')
+Category.objects.all().order_by('-name')
+
+
+Cac phuong thuc khac tham khao tai link
+
+https://docs.djangoproject.com/en/3.2/ref/models/querysets/
+
+==============
+Bai 17
+
+from courses.serializers import *
+from courses.models import *
+
+courses = Course.objects.all()
+CourseSerializer(courses, many=True).data
+
+courses = Course.objects.get(pk=1)
+CourseSerializer(courses).data
+
+================
+
+Bai 19
+
+pL7pzAzyOGwKhcTBy20eT9dT2txXLUHqpvgQCxBN
+OQeYx1cBeeNZOVAHFUW1Y8Te802MB41Ytv8T4UGIbxVFCJLxLcJDEgnMR0LJkXdwTtpQ5ID7S5wMsN2f2Uo4Q5svv0VDfm4gHabVbNZC5Oubm1apOL2SKHTW0ulhihZQ

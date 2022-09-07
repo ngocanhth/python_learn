@@ -31,3 +31,4 @@ plural = "s" if apples != 1 else ""
 
 print("You have {} apple{}.".format(apples, plural))
 
+print(f"tiếng  việt {apples} {plural}")

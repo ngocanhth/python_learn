@@ -15,6 +15,9 @@ urlpatterns = [
     path('detail/', views.detail, name='detail'),
     path('testview/', views.TestView.as_view(), name='testview'),
     
+    path('register/', views.UserRegisterView.as_view(), name='register'),
+    
+    
     # /courses/ - GET   
     # /courses/ - POST   
     # /courses/{course_id} - PUT   

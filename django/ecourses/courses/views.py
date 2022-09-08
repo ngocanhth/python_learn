@@ -11,12 +11,36 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser
 
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 
 # def index(request):
 #   #  return HttpResponse("e-courses app")
 #     return render(request, template_name = "index.html", context={"name":"Ngoc Anh"})
+
+
+class UserRegisterView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
+            user = serializer.save()
+            
+            return JsonResponse({
+                'message': 'Register successful!'
+            }, status=status.HTTP_201_CREATED)
+
+        else:
+            return JsonResponse({
+                'error_message': 'This email has already exist!',
+                'errors_code': 400,
+            }, status=status.HTTP_400_BAD_REQUEST)
+            
+            
+            
 
 def index(request):
     lessons = Lesson.objects.all()
@@ -70,6 +94,10 @@ class UserViewSet(
 
         return [permissions.AllowAny()]
 # ModelViewSet ke thua APIView ke thua View chuan cua django
+
+
+
+
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.filter(active=True)
     serializer_class = CourseSerializer

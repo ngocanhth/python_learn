@@ -28,3 +28,6 @@ django/ecourses/migrations
 django/ecourses/__pycache__
 django/ecourses/courses/static/uploads
 django/ecourses/courses/static/lesson
+django/ecourses/courses/__pycache__/
+django/ecourses/courses/migrations/
+django/ecourses/ecourses/__pycache__/
